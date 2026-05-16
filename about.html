@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOMELIGHT - О нас</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="about.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-row">
+        <a href="index.html" class="logo">HOMELIGHT</a>
+
+        <nav class="nav">
+            <a href="catalog.html">каталог</a>
+            <a href="delivery.html">доставка</a>
+            <a href="about.html"class="active">о нас</a>
+             <a href="contact.html">контакты</a>
+
+            <a href="favorites.html" class="icon icon-favorite">
+                <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20.8 8.6c0 5-8.8 11-8.8 11S3.2 13.6 3.2 8.6c0-2.6 2-4.6 4.6-4.6 1.6 0 3 .8 3.8 2.1C12.4 4.8 13.8 4 15.4 4c2.6 0 4.6 2 4.6 4.6z"/>
+                </svg>
+            </a>
+
+            <a href="profile.html" class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M4 20c2.5-4 5.5-6 8-6s5.5 2 8 6"/>
+                </svg>
+            </a>
+
+            <a href="trashbin.html" class="icon cart-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 4h2l2 10h10l2-7H6"/>
+                    <circle cx="9" cy="20" r="1.5"/>
+                    <circle cx="17" cy="20" r="1.5"/>
+                </svg>
+            </a>
+        </nav>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="20" y1="20" x2="16.5" y2="16.5"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Поиск...">
+        </div>
+    </div>
+</header>
+
+<hr class="divider">
+
+<main>
+    <div class="about-section">
+        <div class="about-left">
+            <h1 class="about-title">О НАС</h1>
+            <p class="about-text-light">
+                Мы - команда мастеров, которые верят в то,<br>
+                что можно создать магию света и тепла
+            </p>
+            <div class="about-spacer" style="height: 20px;"></div>
+            <div class="about-text-regular">
+                <p>
+                    Наша задача - предложить вам не просто продукты,<br>
+                    а уникальный опыт, наполненный уютом и атмосферой.<br>
+                    В нашем магазине вы сможете найти светильник<br>
+                    на любой вкус и цвет, а наша команда поможет вам<br>
+                    его оформить, подскажет как его правильно разместить<br>
+                    и ответит на все интересующие вас вопросы.
+                </p>
+                <p class="about-thanks">
+                    Спасибо, что выбираете нас! Хороших покупок!
+                </p>
+            </div>
+        </div>
+        <div class="about-right">
+            <div class="about-image">
+                <img src="image/about.jpg" alt="Интерьер с светильниками HOMELIGHT">
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container footer-content">
+        <a href="index.html" class="logo">HOMELIGHT</a>
+
+        <div class="footer-links">
+            <div class="col">
+                <a href="index.html">главная</a>
+                <a href="catalog.html">каталог</a>
+            </div>
+            <div class="col">
+                <a href="delivery.html">доставка</a>
+                <a href="favorites.html">избранное</a>
+            </div>
+            <div class="col">
+                <a href="trashbin.html">корзина</a>
+                <a href="contact.html">контакты</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Поиск по страницам
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const query = this.value.trim().toLowerCase();
+            if (query === 'каталог') window.location.href = 'catalog.html';
+            else if (query === 'о нас') window.location.href = 'about.html';
+            else if (query === 'главная') window.location.href = 'index.html';
+            else alert('По запросу "' + query + '" ничего не найдено');
+        }
+    });
+}
+
+// Эффект для сердечка - меняет цвет при наведении
+document.querySelectorAll('.icon-favorite').forEach(icon => {
+    const svg = icon.querySelector('.heart-icon');
+    if (svg) {
+        icon.addEventListener('mouseenter', function() {
+            svg.style.stroke = '#FF6161';
+            svg.style.fill = '#FF6161';
+        });
+        icon.addEventListener('mouseleave', function() {
+            svg.style.stroke = 'currentColor';
+            svg.style.fill = 'none';
+        });
+    }
+});
+</script>
+<script src="favorites.js"></script>
+</body>
+</html>

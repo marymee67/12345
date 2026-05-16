@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карточка товара — HOMELIGHT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="card.css">
+    <link rel="stylesheet" href="cart-notification.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="close" onclick="goBack()">✕</div>
+    <h1 class="title">КАТАЛОГ</h1>
+
+    <div class="image" id="productImage">
+        <img id="mainImage" src="" alt="лампа">
+    </div>
+
+    <div class="content">
+        <div class="product-name" id="productName">декоративная напольная лампа "merga"</div>
+        <div class="description" id="productDescription">материал основания: керамика<br>цвет основания: черный<br>стиль: неоклассический, скандинавский, модерн</div>
+        <div class="bottom">
+            <div class="price" id="productPrice">12.999 ₽</div>
+            <div class="cart" id="addToCartBtn">В КОРЗИНУ</div>
+            <div class="favorite-btn" id="addToFavoriteBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="28" height="28">
+                    <path d="M20.8 8.6c0 5-8.8 11-8.8 11S3.2 13.6 3.2 8.6c0-2.6 2-4.6 4.6-4.6 1.6 0 3 .8 3.8 2.1C12.4 4.8 13.8 4 15.4 4c2.6 0 4.6 2 4.6 4.6z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="product-data.js"></script>
+<script src="cart.js"></script>
+
+<script>
+    // ========== ВСТРОЕННЫЙ МЕНЕДЖЕР ИЗБРАННОГО ==========
+    const FavoritesManager = {
+        items: [],
+        
+        init() {
+            this.load();
+            this.updateIcon();
+            console.log('Избранное загружено, товаров:', this.items.length);
+        },
+        
+        load() {
+            try {
+                const saved = localStorage.getItem('favorites');
+                this.items = saved ? JSON.parse(saved) : [];
+            } catch(e) { this.items = []; }
+        },
+        
+        save() {
+            localStorage.setItem('favorites', JSON.stringify(this.items));
+            this.updateIcon();
+        },
+        
+        add(product) {
+            if (!product || !product.id) return false;
+            if (!this.isFavorite(product.id)) {
+                this.items.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    img: product.img,
+                    category: product.category
+                });
+                this.save();
+                return true;
+            }
+            return false;
+        },
+        
+        remove(id) {
+            const len = this.items.length;
+            this.items = this.items.filter(item => item.id !== id);
+            if (len !== this.items.length) {
+                this.save();
+                return true;
+            }
+            return false;
+        },
+        
+        isFavorite(id) {
+            return this.items.some(item => item.id === id);
+        },
+        
+        updateIcon() {
+            const total = this.items.length;
+            document.querySelectorAll('.icon-favorite').forEach(icon => {
+                let badge = icon.querySelector('.fav-badge');
+                if (!badge && total > 0) {
+                    badge = document.createElement('span');
+                    badge.className = 'fav-badge';
+                    icon.style.position = 'relative';
+                    icon.appendChild(badge);
+                }
+                if (badge) {
+                    badge.textContent = total > 0 ? total : '';
+                    badge.style.display = total > 0 ? 'flex' : 'none';
+                }
+            });
+        }
+    };
+    
+    // Добавляем стили для бейджа
+    const style = document.createElement('style');
+    style.textContent = `.fav-badge{position:absolute;top:-8px;right:-12px;background:#FF6161;color:#fff;font-size:10px;min-width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:sans-serif}`;
+    document.head.appendChild(style);
+    
+    FavoritesManager.init();
+    // ========== КОНЕЦ МЕНЕДЖЕРА ИЗБРАННОГО ==========
+
+    // Получаем товар из URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id'));
+    let currentProduct = null;
+    
+    const allProducts = [...(products || []), ...(productsPage2 || [])];
+    currentProduct = allProducts.find(p => p.id === productId);
+    
+    if (!currentProduct && productId) {
+        currentProduct = {
+            id: productId,
+            name: 'декоративная напольная лампа "merga"',
+            img: 'image/1.6.jpeg',
+            color: 'черный',
+            style: 'неоклассический',
+            description: 'Элегантная керамическая лампа',
+            price: 12999,
+            category: 'lamp'
+        };
+    }
+    
+    if (currentProduct) {
+        document.getElementById('mainImage').src = currentProduct.img || 'image/1.6.jpeg';
+        document.getElementById('productName').textContent = currentProduct.name || 'Товар';
+        document.getElementById('productPrice').textContent = (currentProduct.price || 12999).toLocaleString('ru-RU') + ' ₽';
+    }
+    
+    // Обновляем состояние кнопки избранного
+    function updateFavButton() {
+        const btn = document.getElementById('addToFavoriteBtn');
+        if (!btn || !currentProduct) return;
+        const isFav = FavoritesManager.isFavorite(currentProduct.id);
+        if (isFav) {
+            btn.classList.add('active');
+            btn.querySelector('svg').style.fill = '#FF6161';
+        } else {
+            btn.classList.remove('active');
+            btn.querySelector('svg').style.fill = 'none';
+        }
+    }
+    
+    // Кнопка избранного
+    const favBtn = document.getElementById('addToFavoriteBtn');
+    if (favBtn && currentProduct) {
+        favBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (FavoritesManager.isFavorite(currentProduct.id)) {
+                FavoritesManager.remove(currentProduct.id);
+                showNotification('Удалено из избранного');
+            } else {
+                FavoritesManager.add({
+                    id: currentProduct.id,
+                    name: currentProduct.name,
+                    price: currentProduct.price,
+                    img: currentProduct.img,
+                    category: currentProduct.category
+                });
+                showNotification('Добавлено в избранное');
+            }
+            updateFavButton();
+        });
+        updateFavButton();
+    }
+    
+    // Кнопка корзины
+    const cartBtn = document.getElementById('addToCartBtn');
+    if (cartBtn && currentProduct && typeof cart !== 'undefined') {
+        cartBtn.addEventListener('click', () => {
+            cart.addItem({
+                id: currentProduct.id,
+                name: currentProduct.name,
+                price: currentProduct.price,
+                img: currentProduct.img,
+                category: currentProduct.category
+            });
+            showNotification('Товар добавлен в корзину!');
+        });
+    }
+    
+    function showNotification(msg) {
+        const n = document.createElement('div');
+        n.className = 'cart-notification';
+        n.textContent = msg;
+        document.body.appendChild(n);
+        setTimeout(() => n.classList.add('show'), 10);
+        setTimeout(() => {
+            n.classList.remove('show');
+            setTimeout(() => n.remove(), 300);
+        }, 2000);
+    }
+    
+    function goBack() {
+        window.location.href = 'catalog.html';
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина — HOMELIGHT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="trashbin.css">
+    <link rel="stylesheet" href="cart-notification.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-row">
+        <a href="index.html" class="logo">HOMELIGHT</a>
+
+        <nav class="nav">
+            <a href="catalog.html">каталог</a>
+            <a href="delivery.html">доставка</a>
+            <a href="about.html">о нас</a>
+             <a href="contact.html">контакты</a>
+
+            <a href="favorites.html" class="icon icon-favorite">
+                <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20.8 8.6c0 5-8.8 11-8.8 11S3.2 13.6 3.2 8.6c0-2.6 2-4.6 4.6-4.6 1.6 0 3 .8 3.8 2.1C12.4 4.8 13.8 4 15.4 4c2.6 0 4.6 2 4.6 4.6z"/>
+                </svg>
+            </a>
+
+            <a href="profile.html" class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M4 20c2.5-4 5.5-6 8-6s5.5 2 8 6"/>
+                </svg>
+            </a>
+
+            <a href="trashbin.html" class="icon cart-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 4h2l2 10h10l2-7H6"/>
+                    <circle cx="9" cy="20" r="1.5"/>
+                    <circle cx="17" cy="20" r="1.5"/>
+                </svg>
+            </a>
+        </nav>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="20" y1="20" x2="16.5" y2="16.5"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Поиск...">
+        </div>
+    </div>
+</header>
+
+<hr class="divider">
+
+<section class="cart">
+    <div class="cart-container">
+        <h1 class="cart-title">КОРЗИНА</h1>
+        <div class="cart-subtitle">СОСТАВ ЗАКАЗА</div>
+
+        <div id="cartItems" class="cart-items">
+            <!-- Товары будут загружены через JS -->
+        </div>
+
+        <div class="empty-cart" id="emptyCart" style="display: none;">
+            <div class="empty-text">ВАША КОРЗИНА ПУСТА</div>
+        </div>
+
+        <div class="bottom-line"></div>
+
+        <div class="summary">
+            <div class="summary-left">ИТОГ</div>
+            <div class="summary-right">
+                <div class="row">
+                    <span>СТОИМОСТЬ ЗАКАЗА</span>
+                    <span id="subtotal">0 ₽</span>
+                </div>
+                <div class="row">
+                    <span>КОЛИЧЕСТВО ЕДИНИЦ В ЗАКАЗ</span>
+                    <span id="totalQuantity">00</span>
+                </div>
+                <div class="row">
+                    <span>СТОИМОСТЬ ДОСТАВКИ</span>
+                    <span id="delivery">0 ₽</span>
+                </div>
+                <div class="total">
+                    <span>ИТОГ</span>
+                    <span id="total">0 ₽</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn" style="display: none;">ОФОРМИТЬ ЗАКАЗ</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container footer-content">
+        <a href="index.html" class="logo">HOMELIGHT</a>
+
+        <div class="footer-links">
+            <div class="col">
+                <a href="index.html">главная</a>
+                <a href="catalog.html">каталог</a>
+            </div>
+            <div class="col">
+                <a href="#">доставка</a>
+                <a href="#">избранное</a>
+            </div>
+            <div class="col">
+                <a href="trashbin.html">корзина</a>
+                <a href="#">контакты</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="product-data.js"></script>
+<script src="cart.js"></script>
+<script>
+    function renderCart() {
+        const items = cart.getItems();
+        const cartItemsDiv = document.getElementById('cartItems');
+        const emptyCartDiv = document.getElementById('emptyCart');
+        const subtotalSpan = document.getElementById('subtotal');
+        const totalQuantitySpan = document.getElementById('totalQuantity');
+        const totalSpan = document.getElementById('total');
+        const deliverySpan = document.getElementById('delivery');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        
+        if (items.length === 0) {
+            cartItemsDiv.innerHTML = '';
+            emptyCartDiv.style.display = 'block';
+            document.querySelector('.bottom-line').style.display = 'none';
+            document.querySelector('.summary').style.opacity = '0.5';
+            checkoutBtn.style.display = 'none';
+            subtotalSpan.textContent = '0 ₽';
+            totalQuantitySpan.textContent = '00';
+            deliverySpan.textContent = '0 ₽';
+            totalSpan.textContent = '0 ₽';
+            return;
+        }
+        
+        emptyCartDiv.style.display = 'none';
+        document.querySelector('.bottom-line').style.display = 'block';
+        document.querySelector('.summary').style.opacity = '1';
+        checkoutBtn.style.display = 'block';
+        
+        cartItemsDiv.innerHTML = items.map(item => `
+            <div class="cart-item" data-id="${item.id}" style="animation: fadeInUp 0.5s ease;">
+                <div class="cart-item-image">
+                    <img src="${item.img}" alt="${item.name}">
+                </div>
+                <div class="cart-item-info">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-price">${item.price.toLocaleString('ru-RU')} ₽</div>
+                </div>
+                <div class="cart-item-quantity">
+                    <button class="quantity-btn minus" onclick="updateItemQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                    <span class="quantity-value">${item.quantity}</span>
+                    <button class="quantity-btn plus" onclick="updateItemQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                </div>
+                <div class="cart-item-total">
+                    ${(item.price * item.quantity).toLocaleString('ru-RU')} ₽
+                </div>
+                <div class="cart-item-remove" onclick="removeItem(${item.id})">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </div>
+            </div>
+        `).join('');
+        
+        const subtotal = cart.getTotalPrice();
+        const totalQty = cart.getTotalQuantity();
+        const delivery = subtotal > 5000 ? 0 : 500;
+        
+        subtotalSpan.textContent = subtotal.toLocaleString('ru-RU') + ' ₽';
+        totalQuantitySpan.textContent = totalQty.toString().padStart(2, '0');
+        deliverySpan.textContent = delivery.toLocaleString('ru-RU') + ' ₽';
+        totalSpan.textContent = (subtotal + delivery).toLocaleString('ru-RU') + ' ₽';
+        
+        [subtotalSpan, totalQuantitySpan, deliverySpan, totalSpan].forEach(el => {
+            el.style.animation = 'none';
+            el.offsetHeight;
+            el.style.animation = 'fadeInUp 0.3s ease';
+        });
+    }
+    
+    function updateItemQuantity(id, newQuantity) {
+        cart.updateQuantity(id, newQuantity);
+        renderCart();
+    }
+    
+    function removeItem(id) {
+        cart.removeItem(id);
+        renderCart();
+    }
+    
+    document.getElementById('checkoutBtn')?.addEventListener('click', () => {
+        if (cart.getItems().length > 0) {
+            alert('Спасибо за заказ! Наш менеджер свяжется с вами в ближайшее время.');
+            cart.clearCart();
+            renderCart();
+        }
+    });
+    
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim().toLowerCase();
+                if (query === 'каталог') window.location.href = 'catalog.html';
+                else if (query === 'о нас') window.location.href = 'about.html';
+                else if (query === 'главная') window.location.href = 'index.html';
+                else if (query === 'корзина') window.location.href = 'trashbin.html';
+                else alert('По запросу "' + query + '" ничего не найдено');
+            }
+        });
+    }
+    
+    document.querySelectorAll('.icon-favorite').forEach(icon => {
+        const svg = icon.querySelector('.heart-icon');
+        if (svg) {
+            icon.addEventListener('mouseenter', function() {
+                svg.style.stroke = '#FF6161';
+                svg.style.fill = '#FF6161';
+            });
+            icon.addEventListener('mouseleave', function() {
+                svg.style.stroke = 'currentColor';
+                svg.style.fill = 'none';
+            });
+        }
+    });
+    
+    renderCart();
+</script>
+<script src="favorites.js"></script>
+</body>
+</html>

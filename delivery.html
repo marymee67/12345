@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Доставка — HOMELIGHT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="delivery.css">
+    <link rel="stylesheet" href="cart-notification.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-row">
+        <a href="index.html" class="logo">HOMELIGHT</a>
+
+        <nav class="nav">
+            <a href="catalog.html">каталог</a>
+            <a href="delivery.html" class="active">доставка</a>
+            <a href="about.html">о нас</a>
+             <a href="contact.html">контакты</a>
+
+            <a href="favorites.html" class="icon icon-favorite">
+                <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20.8 8.6c0 5-8.8 11-8.8 11S3.2 13.6 3.2 8.6c0-2.6 2-4.6 4.6-4.6 1.6 0 3 .8 3.8 2.1C12.4 4.8 13.8 4 15.4 4c2.6 0 4.6 2 4.6 4.6z"/>
+                </svg>
+            </a>
+
+            <a href="profile.html" class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M4 20c2.5-4 5.5-6 8-6s5.5 2 8 6"/>
+                </svg>
+            </a>
+
+            <a href="trashbin.html" class="icon cart-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 4h2l2 10h10l2-7H6"/>
+                    <circle cx="9" cy="20" r="1.5"/>
+                    <circle cx="17" cy="20" r="1.5"/>
+                </svg>
+            </a>
+        </nav>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="20" y1="20" x2="16.5" y2="16.5"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Поиск...">
+        </div>
+    </div>
+</header>
+
+<hr class="divider">
+
+<main>
+    <div class="delivery-section">
+        <div class="container delivery-container">
+            <h1 class="delivery-title">ДОСТАВКА</h1>
+            <p class="delivery-subtitle">Мы доставляем свет по всей России</p>
+
+            <div class="delivery-grid">
+                <!-- Карточка 1: Курьерская доставка -->
+                <div class="delivery-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="40" height="40">
+                            <path d="M3 5h14v14H3z" stroke-width="1.5"/>
+                            <path d="M17 8h4v6h-4" stroke-width="1.5"/>
+                            <circle cx="7" cy="17" r="2" stroke-width="1.5"/>
+                            <circle cx="17" cy="17" r="2" stroke-width="1.5"/>
+                            <path d="M12 5v10" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Курьерская доставка</h3>
+                    <p class="card-text">
+                        Доставим заказ по указанному адресу в удобное для вас время. 
+                        Курьер свяжется с вами за час до прибытия.
+                    </p>
+                    <div class="card-price">от 500 ₽</div>
+                    <div class="card-note">Бесплатно при заказе от 5 000 ₽</div>
+                </div>
+
+                <!-- Карточка 2: Пункты выдачи -->
+                <div class="delivery-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="40" height="40">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke-width="1.5"/>
+                            <path d="M2 17l10 5 10-5" stroke-width="1.5"/>
+                            <path d="M2 12l10 5 10-5" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Пункты выдачи</h3>
+                    <p class="card-text">
+                        Более 500 пунктов выдачи по всей России. 
+                        Заберите заказ самостоятельно в ближайшем к вам пункте.
+                    </p>
+                    <div class="card-price">от 350 ₽</div>
+                    <div class="card-note">Срок хранения 7 дней</div>
+                </div>
+
+                <!-- Карточка 3: Почта России -->
+                <div class="delivery-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="40" height="40">
+                            <rect x="2" y="4" width="20" height="16" rx="2" stroke-width="1.5"/>
+                            <path d="M22 7L12 13 2 7" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">Почта России</h3>
+                    <p class="card-text">
+                        Отправка заказов в любой уголок страны. 
+                        Отслеживание по трек-номеру на сайте почты.
+                    </p>
+                    <div class="card-price">от 400 ₽</div>
+                    <div class="card-note">Срок доставки 5–14 дней</div>
+                </div>
+
+                <!-- Карточка 4: СДЭК -->
+                <div class="delivery-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="40" height="40">
+                            <circle cx="12" cy="12" r="9" stroke-width="1.5"/>
+                            <path d="M12 8v4l3 3" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <h3 class="card-title">СДЭК</h3>
+                    <p class="card-text">
+                        Быстрая доставка по России и СНГ. 
+                        Возможность примерки перед оплатой.
+                    </p>
+                    <div class="card-price">от 550 ₽</div>
+                    <div class="card-note">Доставка 1–5 дней</div>
+                </div>
+            </div>
+
+            <!-- Блок с условиями доставки -->
+            <div class="delivery-info">
+                <h2 class="info-title">УСЛОВИЯ ДОСТАВКИ</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="28" height="28">
+                                <circle cx="12" cy="12" r="10" stroke-width="1.5"/>
+                                <path d="M12 6v6l4 2" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <div class="info-text">
+                            <h4>Сроки доставки</h4>
+                            <p>Москва и МО — 1–2 дня<br>Регионы — 3–7 дней<br>Удалённые районы — до 14 дней</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="28" height="28">
+                                <path d="M20 12H4M12 4v16" stroke-width="1.5"/>
+                                <path d="M4 20h16" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <div class="info-text">
+                            <h4>Бесплатная доставка</h4>
+                            <p>При сумме заказа от 5 000 ₽ — доставка бесплатно<br>Акция действует для всех способов доставки</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="28" height="28">
+                                <path d="M3 6h18v12H3z" stroke-width="1.5"/>
+                                <path d="M8 6v12M16 6v12M12 6v12" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <div class="info-text">
+                            <h4>Упаковка</h4>
+                            <p>Все товары тщательно упаковываются в надёжную упаковку. Светильники дополнительно защищены пузырчатой плёнкой.</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="28" height="28">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke-width="1.5"/>
+                                <polyline points="22 4 12 14.01 9 11.01" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+                        <div class="info-text">
+                            <h4>Отслеживание заказа</h4>
+                            <p>После отправки вы получите трек-номер на email и в SMS. Статус заказа можно отслеживать в личном кабинете.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Часто задаваемые вопросы -->
+            <div class="delivery-faq">
+                <h2 class="faq-title">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>Как изменить адрес доставки после оформления заказа?</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20">
+                                <polyline points="6 9 12 15 18 9" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="faq-answer">
+                            Вы можете изменить адрес доставки, связавшись с нами по телефону или в чате в течение 1 часа после оформления заказа. После передачи заказа в службу доставки изменение адреса невозможно.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>Что делать, если товар повреждён при доставке?</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20">
+                                <polyline points="6 9 12 15 18 9" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="faq-answer">
+                            При получении заказа обязательно осмотрите упаковку. При обнаружении повреждений откажитесь от получения и составьте акт с курьером. Свяжитесь с нами, и мы отправим замену или вернём деньги.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>Можно ли вернуть товар?</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20">
+                                <polyline points="6 9 12 15 18 9" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="faq-answer">
+                            Да, вы можете вернуть товар в течение 14 дней с момента получения, если он не был в использовании и сохранены все упаковочные материалы и ярлыки.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span>Доставляете ли вы за границу?</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20">
+                                <polyline points="6 9 12 15 18 9" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="faq-answer">
+                            На данный момент мы осуществляем доставку только по территории России. В ближайшее время планируем запустить доставку в страны СНГ.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container footer-content">
+        <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">HOMELIGHT</a>
+
+        <div class="footer-links">
+            <div class="col">
+                <a href="index.html">главная</a>
+                <a href="catalog.html">каталог</a>
+            </div>
+            <div class="col">
+                <a href="delivery.html">доставка</a>
+                <a href="#">избранное</a>
+            </div>
+            <div class="col">
+                <a href="trashbin.html">корзина</a>
+                <a href="#">контакты</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="product-data.js"></script>
+<script src="cart.js"></script>
+<script>
+    // Поиск по страницам
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim().toLowerCase();
+                if (query === 'каталог') window.location.href = 'catalog.html';
+                else if (query === 'доставка') window.location.href = 'delivery.html';
+                else if (query === 'о нас') window.location.href = 'about.html';
+                else if (query === 'главная') window.location.href = 'index.html';
+                else if (query === 'корзина') window.location.href = 'trashbin.html';
+                else alert('По запросу "' + query + '" ничего не найдено');
+            }
+        });
+    }
+
+    // Эффект для сердечка
+    document.querySelectorAll('.icon-favorite').forEach(icon => {
+        const svg = icon.querySelector('.heart-icon');
+        if (svg) {
+            icon.addEventListener('mouseenter', function() {
+                svg.style.stroke = '#FF6161';
+                svg.style.fill = '#FF6161';
+            });
+            icon.addEventListener('mouseleave', function() {
+                svg.style.stroke = 'currentColor';
+                svg.style.fill = 'none';
+            });
+        }
+    });
+
+    // FAQ toggle function
+    window.toggleFaq = function(element) {
+        const item = element.parentElement;
+        const isActive = item.classList.contains('active');
+        
+        document.querySelectorAll('.faq-item').forEach(faqItem => {
+            faqItem.classList.remove('active');
+        });
+        
+        if (!isActive) {
+            item.classList.add('active');
+        }
+    };
+</script>
+<script src="favorites.js"></script>
+</body>
+</html>

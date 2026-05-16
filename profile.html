@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Профиль — HOMELIGHT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cart-notification.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'Widock Trial';
+            src: url('Widock TRIAL Bold.otf') format('opentype');
+            font-weight: 800;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Gothic60';
+            src: url('Gothic60-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        body {
+            background: #f3f3f3;
+            font-family: 'Gothic60', 'Manrope', sans-serif;
+            color: #111;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .profile-title, .logo {
+            font-family: 'Widock Trial', 'Manrope', sans-serif;
+            font-weight: 800;
+        }
+
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        .header {
+            padding: 25px 0 35px;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            letter-spacing: 2px;
+            font-size: 24px;
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.3s;
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            font-size: 14px;
+            color: #111;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover, .nav a.active {
+            color: #a6a86c;
+        }
+
+        .icon {
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .icon svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 1.8;
+            transition: all 0.3s ease;
+        }
+
+        .icon-favorite:hover svg {
+            stroke: #FF6161 !important;
+            fill: #FF6161 !important;
+        }
+
+        .icon:not(.icon-favorite):hover svg {
+            stroke: #a6a86c;
+        }
+
+        .search-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            border: 1.5px solid #111;
+            border-radius: 20px;
+            padding: 6px 14px;
+            width: 320px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: #a6a86c;
+        }
+
+        .search-box svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            background: transparent;
+            width: 100%;
+            font-size: 14px;
+            font-family: 'Gothic60', 'Manrope', sans-serif;
+        }
+
+        .profile-page {
+            padding: 40px 0 80px;
+            flex: 1;
+        }
+
+        .profile-title {
+            font-size: 60px;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: #a6a86c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 48px;
+            color: white;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .profile-email, .profile-phone {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: #a6a86c;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .logout-btn {
+            background: #e9e9e9;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: 'Gothic60', sans-serif;
+        }
+
+        .logout-btn:hover {
+            background: #FF6161;
+            color: white;
+        }
+
+        .footer {
+            background: #e6e6e6;
+            padding: 40px 0;
+            width: 100%;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 70px;
+        }
+
+        .footer-links .col {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            font-size: 14px;
+            color: #111;
+            transition: color 0.3s;
+            font-family: 'Gothic60', sans-serif;
+        }
+
+        .footer-links a:hover {
+            color: #a6a86c;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .header-row {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            .profile-title {
+                font-size: 48px;
+            }
+            .profile-card {
+                padding: 25px;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: 30px;
+                align-items: center;
+            }
+            .footer-links .col {
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-title {
+                font-size: 36px;
+            }
+            .search-box {
+                width: 100%;
+                max-width: 320px;
+            }
+            .nav {
+                gap: 15px;
+            }
+            .nav a {
+                font-size: 12px;
+            }
+            .profile-name {
+                font-size: 20px;
+            }
+            .stat-value {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-row">
+        <a href="index.html" class="logo">HOMELIGHT</a>
+
+        <nav class="nav">
+            <a href="catalog.html">каталог</a>
+            <a href="delivery.html">доставка</a>
+            <a href="about.html">о нас</a>
+             <a href="contact.html">контакты</a>
+
+            <a href="favorite.html" class="icon icon-favorite">
+                <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20.8 8.6c0 5-8.8 11-8.8 11S3.2 13.6 3.2 8.6c0-2.6 2-4.6 4.6-4.6 1.6 0 3 .8 3.8 2.1C12.4 4.8 13.8 4 15.4 4c2.6 0 4.6 2 4.6 4.6z"/>
+                </svg>
+            </a>
+
+            <a href="profile.html" class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M4 20c2.5-4 5.5-6 8-6s5.5 2 8 6"/>
+                </svg>
+            </a>
+
+            <a href="trashbin.html" class="icon cart-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 4h2l2 10h10l2-7H6"/>
+                    <circle cx="9" cy="20" r="1.5"/>
+                    <circle cx="17" cy="20" r="1.5"/>
+                </svg>
+            </a>
+        </nav>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="20" y1="20" x2="16.5" y2="16.5"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Поиск...">
+        </div>
+    </div>
+</header>
+
+<hr class="divider">
+
+<section class="profile-page">
+    <div class="container">
+        <h1 class="profile-title">ПРОФИЛЬ</h1>
+
+        <div class="profile-card">
+            <div class="profile-avatar">
+                👤
+            </div>
+            <div class="profile-name">Гость</div>
+            <div class="profile-email">guest@homelight.ru</div>
+            <div class="profile-phone">+7 (999) 123-45-67</div>
+
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="ordersCount">0</div>
+                    <div class="stat-label">ЗАКАЗОВ</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="favoritesCount">0</div>
+                    <div class="stat-label">ИЗБРАННОЕ</div>
+                </div>
+            </div>
+
+            <button class="logout-btn" onclick="logout()">ВЫЙТИ</button>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container footer-content">
+        <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">HOMELIGHT</a>
+
+        <div class="footer-links">
+            <div class="col">
+                <a href="index.html">главная</a>
+                <a href="catalog.html">каталог</a>
+            </div>
+            <div class="col">
+                <a href="delivery.html">доставка</a>
+                <a href="favorites.html">избранное</a>
+            </div>
+            <div class="col">
+                <a href="trashbin.html">корзина</a>
+                <a href="contact.html">контакты</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="favorites.js"></script>
+<script>
+    function updateProfileStats() {
+        const favoritesCount = favorites.getTotalCount();
+        document.getElementById('favoritesCount').textContent = favoritesCount;
+    }
+    
+    function logout() {
+        if (confirm('Вы уверены, что хотите выйти?')) {
+            localStorage.removeItem('user');
+            alert('Вы вышли из аккаунта');
+            window.location.href = 'index.html';
+        }
+    }
+    
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim().toLowerCase();
+                if (query === 'каталог') window.location.href = 'catalog.html';
+                else if (query === 'о нас') window.location.href = 'about.html';
+                else if (query === 'главная') window.location.href = 'index.html';
+                else if (query === 'корзина') window.location.href = 'trashbin.html';
+                else if (query === 'избранное') window.location.href = 'favorites.html';
+                else if (query === 'профиль') window.location.href = 'profile.html';
+                else alert('По запросу "' + query + '" ничего не найдено');
+            }
+        });
+    }
+    
+    updateProfileStats();
+</script>
+<script src="favorites.js"></script>
+<script>
+    function updateProfileStats() {
+        if (typeof favorites !== 'undefined') {
+            const favoritesCount = favorites.getTotalCount();
+            document.getElementById('favoritesCount').textContent = favoritesCount;
+        }
+    }
+</script>
+</body>
+</html>

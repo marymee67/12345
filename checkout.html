@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформление заказа — HOMELIGHT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/delivery.css">
+</head>
+<body>
+    <div class="container" style="padding: 40px 20px;">
+        <h1>Оформление заказа</h1>
+        <div id="checkoutContent"></div>
+    </div>
+    
+    <script src="js/product-data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/delivery.js"></script>
+    <script>
+        // Отображение информации о заказе
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const delivery = deliveryUtils.getSelectedDelivery();
+        const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const deliveryCost = deliveryUtils.calculateDeliveryCost(cartTotal);
+        
+        document.getElementById('checkoutContent').innerHTML = `
+            <h2>Ваш заказ</h2>
+            <p>Сумма товаров: ${cartTotal} ₽</p>
+            <p>Доставка: ${deliveryCost.isFree ? 'Бесплатно' : deliveryCost.cost + ' ₽'}</p>
+            <p>Способ доставки: ${deliveryCost.methodName || 'Не выбран'}</p>
+            <h3>Итого: ${cartTotal + deliveryCost.cost} ₽</h3>
+            <button onclick="confirmOrder()">Подтвердить заказ</button>
+        `;
+        
+        window.confirmOrder = function() {
+            alert('Заказ оформлен! Спасибо за покупку!');
+            localStorage.removeItem('cart');
+            localStorage.removeItem('selectedDelivery');
+            window.location.href = 'index.html';
+        };
+    </script>
+</body>
+</html>

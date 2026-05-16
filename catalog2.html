@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог — HOMELIGHT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="catalog2.css">
+    <link rel="stylesheet" href="cart-notification.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-row">
+        <a href="index.html" class="logo">HOMELIGHT</a>
+
+        <nav class="nav">
+            <a href="catalog.html"class="active">каталог</a>
+            <a href="delivery.html">доставка</a>
+            <a href="about.html">о нас</a>
+             <a href="contact.html">контакты</a>
+
+            <a href="favorites.html" class="icon icon-favorite">
+                <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20.8 8.6c0 5-8.8 11-8.8 11S3.2 13.6 3.2 8.6c0-2.6 2-4.6 4.6-4.6 1.6 0 3 .8 3.8 2.1C12.4 4.8 13.8 4 15.4 4c2.6 0 4.6 2 4.6 4.6z"/>
+                </svg>
+            </a>
+
+            <a href="profile.html" class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M4 20c2.5-4 5.5-6 8-6s5.5 2 8 6"/>
+                </svg>
+            </a>
+
+            <a href="trashbin.html" class="icon cart-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 4h2l2 10h10l2-7H6"/>
+                    <circle cx="9" cy="20" r="1.5"/>
+                    <circle cx="17" cy="20" r="1.5"/>
+                </svg>
+            </a>
+        </nav>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="20" y1="20" x2="16.5" y2="16.5"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Поиск...">
+        </div>
+    </div>
+</header>
+
+<section class="catalog container">
+    <h1>КАТАЛОГ</h1>
+
+    <div id="catalogGrid" class="catalog-grid">
+        <!-- товары будут загружены через JS -->
+    </div>
+
+    <div class="pagination">
+        <span data-page="1">1</span>
+        <span data-page="2" class="active">2</span>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container footer-content">
+        <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">HOMELIGHT</a>
+
+        <div class="footer-links">
+            <div class="col">
+                <a href="index.html">главная</a>
+                <a href="catalog.html">каталог</a>
+            </div>
+            <div class="col">
+                <a href="#">доставка</a>
+                <a href="#">избранное</a>
+            </div>
+            <div class="col">
+                <a href="trashbin.html">корзина</a>
+                <a href="#">контакты</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="product-data.js"></script>
+<script src="cart.js"></script>
+<script>
+    const allProducts = {
+        1: products,
+        2: productsPage2
+    };
+
+    let currentPage = 2;
+    let currentSearchTerm = "";
+
+    function renderCatalog() {
+        let productsList = [...allProducts[currentPage]];
+        
+        if (currentSearchTerm.trim() !== "") {
+            const searchLower = currentSearchTerm.trim().toLowerCase();
+            productsList = productsList.filter(product => 
+                product.name.toLowerCase().includes(searchLower) || 
+                product.category.toLowerCase().includes(searchLower)
+            );
+        }
+
+        const grid = document.getElementById("catalogGrid");
+        
+        if (productsList.length === 0) {
+            grid.innerHTML = `<div class="no-results">😕 Ничего не найдено. Попробуйте другой запрос.</div>`;
+            return;
+        }
+
+        grid.innerHTML = productsList.map(product => `
+            <div class="card" onclick="window.location.href='card.html?id=${product.id}'">
+                <div class="card-img">
+                    <img src="${product.img}" alt="${product.name}">
+                </div>
+                <p>${product.name}</p>
+                <button onclick="event.stopPropagation(); window.location.href='card.html?id=${product.id}'">перейти</button>
+            </div>
+        `).join("");
+    }
+
+    function updateActivePage(page) {
+        const paginationSpans = document.querySelectorAll(".pagination span");
+        paginationSpans.forEach(span => {
+            const spanPage = parseInt(span.getAttribute("data-page"));
+            if (spanPage === page) {
+                span.classList.add("active");
+            } else {
+                span.classList.remove("active");
+            }
+        });
+        
+        const url = new URL(window.location.href);
+        url.searchParams.set("page", page);
+        window.history.pushState({}, "", url);
+    }
+
+    function changePage(page) {
+        if (page === currentPage) return;
+        
+        if (page === 1) {
+            window.location.href = "catalog.html?page=1";
+        } else {
+            window.location.href = "catalog2.html?page=2";
+        }
+    }
+
+    document.querySelectorAll(".pagination span").forEach(span => {
+        span.addEventListener("click", (e) => {
+            const page = parseInt(span.getAttribute("data-page"));
+            changePage(page);
+        });
+    });
+
+    const searchInput = document.getElementById("searchInput");
+    let searchTimeout;
+    
+    searchInput.addEventListener("input", (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            currentSearchTerm = e.target.value;
+            renderCatalog();
+        }, 300);
+    });
+
+    renderCatalog();
+
+    document.querySelectorAll('.icon-favorite').forEach(icon => {
+        const svg = icon.querySelector('svg');
+        if (svg) {
+            icon.addEventListener('mouseenter', function() {
+                svg.style.stroke = '#FF6161';
+                svg.style.fill = '#FF6161';
+            });
+            icon.addEventListener('mouseleave', function() {
+                svg.style.stroke = 'currentColor';
+                svg.style.fill = 'none';
+            });
+        }
+    });
+</script>
+<script src="favorites.js"></script>
+</body>
+</html>

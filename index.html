@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOMELIGHT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cart-notification.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-row">
+        <a href="index.html" class="logo">HOMELIGHT</a>
+
+        <nav class="nav">
+            <a href="catalog.html">каталог</a>
+            <a href="delivery.html">доставка</a>
+            <a href="about.html">о нас</a>
+             <a href="contact.html">контакты</a>
+
+            <a href="favorites.html" class="icon icon-favorite">
+                <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20.8 8.6c0 5-8.8 11-8.8 11S3.2 13.6 3.2 8.6c0-2.6 2-4.6 4.6-4.6 1.6 0 3 .8 3.8 2.1C12.4 4.8 13.8 4 15.4 4c2.6 0 4.6 2 4.6 4.6z"/>
+                </svg>
+            </a>
+
+            <a href="profile.html" class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M4 20c2.5-4 5.5-6 8-6s5.5 2 8 6"/>
+                </svg>
+            </a>
+
+            <a href="trashbin.html" class="icon cart-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 4h2l2 10h10l2-7H6"/>
+                    <circle cx="9" cy="20" r="1.5"/>
+                    <circle cx="17" cy="20" r="1.5"/>
+                </svg>
+            </a>
+        </nav>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="20" y1="20" x2="16.5" y2="16.5"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Поиск...">
+        </div>
+    </div>
+</header>
+
+<hr class="divider">
+
+<section class="hero container">
+    <h1>HOMELIGHT</h1>
+    <p class="hero-text">
+        уникальный онлайн-магазин декоративных ламп, где каждый огонёк наполняет пространство теплом и уютом.
+    </p>
+</section>
+
+<hr class="divider">
+
+<section class="catalog container">
+    <h2>ДЛЯ ВАС</h2>
+
+    <div class="catalog-grid">
+        <div class="card" onclick="window.location.href='card.html?id=6'">
+            <div class="card-img">
+                <img src="image/1.6.jpeg" alt="Лампа 1">
+            </div>
+            <p>настенные лампы</p>
+            <button onclick="event.stopPropagation(); window.location.href='card.html?id=6'">перейти</button>
+        </div>
+
+        <div class="card" onclick="window.location.href='card.html?id=3'">
+            <img src="image/1.3.jpeg" alt="Лампа 2">
+            <p>настенные лампы</p>
+            <button onclick="event.stopPropagation(); window.location.href='card.html?id=3'">перейти</button>
+        </div>
+
+        <div class="card" onclick="window.location.href='card.html?id=9'">
+            <img src="image/1.9.jpg" alt="Лампа 3">
+            <p>настенные лампы</p>
+            <button onclick="event.stopPropagation(); window.location.href='card.html?id=9'">перейти</button>
+        </div>
+    </div>
+</section>
+
+<section class="subscribe">
+    <div class="container">
+        <h2 class="subscribe-title">УЗНАЙТЕ ПЕРВЫМИ О АКЦИЯХ</h2>
+        <p class="sub-text">ВСЕГДА БУДЬТЕ ПЕРВЫМИ, КТО В КУРСЕ ОБ АКЦИЯХ И РАСПРОДАЖАХ</p>
+
+        <div class="subscribe-wrapper">
+            <div class="subscribe-image">
+                <img src="image/homelight.png" alt="Подписка">
+            </div>
+
+            <form class="subscribe-form" id="subscribeForm" novalidate>
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        id="fullname"
+                        placeholder="ФИО" 
+                        autocomplete="off"
+                    >
+                    <div class="error-message" id="fullnameError">Пожалуйста, введите ФИО полностью на русском языке</div>
+                </div>
+
+                <div class="form-group">
+                    <input 
+                        type="tel" 
+                        id="phone"
+                        placeholder="ТЕЛЕФОН" 
+                        autocomplete="off"
+                    >
+                    <div class="error-message" id="phoneError">Телефон должен начинаться с '+' и содержать 11-13 цифр</div>
+                </div>
+
+                <div class="form-group">
+                    <input 
+                        type="email" 
+                        id="email"
+                        placeholder="E-MAIL" 
+                        autocomplete="off"
+                    >
+                    <div class="error-message" id="emailError">example: name@domain.com</div>
+                </div>
+
+                <button type="submit" class="subscribe-btn" id="submitBtn">подписаться</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ---------- БЛОК ПОДПИСКИ ----------
+        const subscribeForm = document.getElementById('subscribeForm');
+        if (subscribeForm) {
+            const fullnameInput = document.getElementById('fullname');
+            const phoneInput = document.getElementById('phone');
+            const emailInput = document.getElementById('email');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            const fullnameError = document.getElementById('fullnameError');
+            const phoneError = document.getElementById('phoneError');
+            const emailError = document.getElementById('emailError');
+            
+            // Регулярные выражения
+            const patterns = {
+                fullname: /^[А-Яа-яЁё\s]{2,}$/,
+                phone: /^\+\d{10,13}$/,
+                email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            };
+            
+            // При фокусе на телефоне - добавляем +, если поле пустое
+            phoneInput.addEventListener('focus', function() {
+                if (this.value.trim() === '') {
+                    this.value = '+';
+                }
+            });
+            
+            // При вводе телефона - защищаем первый символ +
+            phoneInput.addEventListener('input', function() {
+                let val = this.value;
+                
+                // Если поле пустое - ставим +
+                if (val === '') {
+                    this.value = '+';
+                    return;
+                }
+                
+                // Если первый символ не + - добавляем его в начало
+                if (val[0] !== '+') {
+                    this.value = '+' + val.replace(/[^0-9]/g, '');
+                    return;
+                }
+                
+                // Удаляем все символы, кроме + и цифр, но сохраняем + в начале
+                let numbers = val.substring(1).replace(/[^0-9]/g, '');
+                this.value = '+' + numbers;
+            });
+            
+            // Функция валидации одного поля
+            function validateField(input, pattern, errorElement) {
+                const value = input.value.trim();
+                
+                if (value === '') {
+                    input.classList.add('invalid');
+                    errorElement.classList.add('visible');
+                    return false;
+                }
+                
+                if (!pattern.test(value)) {
+                    input.classList.add('invalid');
+                    errorElement.classList.add('visible');
+                    return false;
+                }
+                
+                input.classList.remove('invalid');
+                errorElement.classList.remove('visible');
+                return true;
+            }
+            
+            // Общая проверка формы
+            function isFormValid() {
+                const isFullnameValid = validateField(fullnameInput, patterns.fullname, fullnameError);
+                const isPhoneValid = validateField(phoneInput, patterns.phone, phoneError);
+                const isEmailValid = validateField(emailInput, patterns.email, emailError);
+                
+                return isFullnameValid && isPhoneValid && isEmailValid;
+            }
+            
+            // Обновление состояния кнопки
+            function updateSubscribeButton() {
+                submitBtn.disabled = !isFormValid();
+            }
+            
+            // Обработчики событий
+            fullnameInput.addEventListener('input', () => {
+                validateField(fullnameInput, patterns.fullname, fullnameError);
+                updateSubscribeButton();
+            });
+            
+            phoneInput.addEventListener('input', () => {
+                validateField(phoneInput, patterns.phone, phoneError);
+                updateSubscribeButton();
+            });
+            
+            emailInput.addEventListener('input', () => {
+                validateField(emailInput, patterns.email, emailError);
+                updateSubscribeButton();
+            });
+            
+            fullnameInput.addEventListener('blur', () => {
+                validateField(fullnameInput, patterns.fullname, fullnameError);
+                updateSubscribeButton();
+            });
+            
+            phoneInput.addEventListener('blur', () => {
+                validateField(phoneInput, patterns.phone, phoneError);
+                updateSubscribeButton();
+            });
+            
+            emailInput.addEventListener('blur', () => {
+                validateField(emailInput, patterns.email, emailError);
+                updateSubscribeButton();
+            });
+            
+            // Отправка формы
+            subscribeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (isFormValid()) {
+                    // Меняем цвет кнопки при нажатии
+                    submitBtn.style.backgroundColor = '#8b8d5a';
+                    
+                    // Простое сообщение без имени
+                    alert('Спасибо за подписку!');
+                    
+                    // Сбрасываем форму
+                    subscribeForm.reset();
+                    
+                    // Убираем классы ошибок
+                    fullnameInput.classList.remove('invalid');
+                    phoneInput.classList.remove('invalid');
+                    emailInput.classList.remove('invalid');
+                    fullnameError.classList.remove('visible');
+                    phoneError.classList.remove('visible');
+                    emailError.classList.remove('visible');
+                    
+                    // Блокируем кнопку
+                    submitBtn.disabled = true;
+                    
+                    // Возвращаем цвет кнопки
+                    setTimeout(() => {
+                        submitBtn.style.backgroundColor = '';
+                    }, 200);
+                } else {
+                    alert('Пожалуйста, заполните все поля корректно');
+                }
+            });
+            
+            // Инициализация
+            updateSubscribeButton();
+        }
+    });
+</script>
+
+<style>
+    /* Стили для подсветки ошибок */
+    .form-group input.invalid {
+        border-color: #ff6161 !important;
+        background-color: #fff8f8;
+    }
+    
+    .error-message {
+        font-size: 12px;
+        color: #ff6161;
+        margin-top: 5px;
+        margin-left: 15px;
+        display: none;
+    }
+    
+    .error-message.visible {
+        display: block;
+    }
+    
+    .subscribe-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+    
+    .subscribe-btn {
+        transition: background 0.2s ease;
+    }
+</style>
+<footer class="footer">
+    <div class="container footer-content">
+        <a href="index.html" class="logo">HOMELIGHT</a>
+
+        <div class="footer-links">
+            <div class="col">
+                <a href="index.html">главная</a>
+                <a href="catalog.html">каталог</a>
+            </div>
+            <div class="col">
+                <a href="delivery.html">доставка</a>
+                <a href="favorites.html">избранное</a>
+            </div>
+            <div class="col">
+                <a href="trashbin.html">корзина</a>
+                <a href="contact.html">контакты</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="product-data.js"></script>
+<script src="cart.js"></script>
+<script>
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const query = this.value.trim().toLowerCase();
+            if (query === 'каталог') {
+                window.location.href = 'catalog.html';
+            } else if (query === 'о нас') {
+                window.location.href = 'about.html';
+            } else if (query === 'главная') {
+                window.location.href = 'index.html';
+            } else if (query === 'корзина') {
+                window.location.href = 'trashbin.html';
+            } else {
+                alert('Найдено: ' + query);
+            }
+        }
+    });
+}
+
+document.querySelectorAll('.icon-favorite').forEach(icon => {
+    const svg = icon.querySelector('.heart-icon');
+    if (svg) {
+        icon.addEventListener('mouseenter', function() {
+            svg.style.stroke = '#FF6161';
+            svg.style.fill = '#FF6161';
+        });
+        icon.addEventListener('mouseleave', function() {
+            svg.style.stroke = 'currentColor';
+            svg.style.fill = 'none';
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('subscribeForm');
+    if (!form) return;
+    
+    const fullnameInput = document.getElementById('fullname');
+    const phoneInput = document.getElementById('phone');
+    const emailInput = document.getElementById('email');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    let fullnameTouched = false;
+    let phoneTouched = false;
+    let emailTouched = false;
+    let formSubmitted = false;
+    
+    const patterns = {
+        fullname: /^[А-Яа-яЁё\s]+$/,
+        phone: /^\+\d{1,3}\d{10}$/,
+        email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    };
+    
+    function validateField(input, pattern, errorElementId, touched) {
+        const errorElement = document.getElementById(errorElementId);
+        const value = input.value.trim();
+        
+        if (touched || formSubmitted) {
+            if (value === '') {
+                input.setCustomValidity('Поле обязательно для заполнения');
+                errorElement.classList.add('visible');
+                return false;
+            } else if (!pattern.test(value)) {
+                input.setCustomValidity('Неверный формат');
+                errorElement.classList.add('visible');
+                return false;
+            } else {
+                input.setCustomValidity('');
+                errorElement.classList.remove('visible');
+                return true;
+            }
+        } else {
+            input.setCustomValidity('');
+            errorElement.classList.remove('visible');
+            return value !== '' && pattern.test(value);
+        }
+    }
+    
+    function validateForm() {
+        const isFullnameValid = validateField(fullnameInput, patterns.fullname, 'fullnameError', fullnameTouched);
+        const isPhoneValid = validateField(phoneInput, patterns.phone, 'phoneError', phoneTouched);
+        const isEmailValid = validateField(emailInput, patterns.email, 'emailError', emailTouched);
+        return isFullnameValid && isPhoneValid && isEmailValid;
+    }
+    
+    function updateButtonState() {
+        submitBtn.disabled = !validateForm();
+    }
+    
+    fullnameInput.addEventListener('input', function() { fullnameTouched = true; validateField(this, patterns.fullname, 'fullnameError', true); updateButtonState(); });
+    fullnameInput.addEventListener('blur', function() { fullnameTouched = true; validateField(this, patterns.fullname, 'fullnameError', true); updateButtonState(); });
+    
+    phoneInput.addEventListener('input', function() {
+        phoneTouched = true;
+        if (this.value && !this.value.startsWith('+')) {
+            this.value = '+' + this.value.replace(/[^0-9]/g, '');
+        }
+        validateField(this, patterns.phone, 'phoneError', true);
+        updateButtonState();
+    });
+    phoneInput.addEventListener('blur', function() { phoneTouched = true; validateField(this, patterns.phone, 'phoneError', true); updateButtonState(); });
+    
+    emailInput.addEventListener('input', function() {
+        emailTouched = true;
+        this.value = this.value.toLowerCase();
+        validateField(this, patterns.email, 'emailError', true);
+        updateButtonState();
+    });
+    emailInput.addEventListener('blur', function() { emailTouched = true; validateField(this, patterns.email, 'emailError', true); updateButtonState(); });
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        formSubmitted = true;
+        fullnameTouched = true;
+        phoneTouched = true;
+        emailTouched = true;
+        
+        if (validateForm()) {
+            alert('Спасибо за подписку!');
+            form.reset();
+            fullnameTouched = false;
+            phoneTouched = false;
+            emailTouched = false;
+            formSubmitted = false;
+            updateButtonState();
+        }
+    });
+    
+    updateButtonState();
+});

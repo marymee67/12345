@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Избранное — HOMELIGHT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cart-notification.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'Widock Trial';
+            src: url('Widock TRIAL Bold.otf') format('opentype');
+            font-weight: 800;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Gothic60';
+            src: url('Gothic60-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            overflow-x: hidden;
+            width: 100%;
+            background: #f3f3f3;
+            font-family: 'Gothic60', 'Manrope', sans-serif;
+            color: #111;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        img, video, iframe {
+            max-width: 100%;
+            height: auto;
+        }
+
+        button, input, select, textarea {
+            font-size: 16px;
+        }
+
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            padding: 25px 0 35px;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Widock Trial', 'Manrope', sans-serif;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 24px;
+            text-decoration: none;
+            color: inherit;
+            transition: opacity 0.3s;
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav a {
+            font-family: 'Gothic60', 'Manrope', sans-serif;
+            font-weight: 400;
+            text-decoration: none;
+            font-size: 14px;
+            color: #111;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #a6a86c;
+        }
+
+        .nav a.active {
+            color: #a6a86c;
+        }
+
+        .icon {
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .icon svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 1.8;
+            transition: all 0.3s ease;
+        }
+
+        .icon-favorite:hover svg {
+            stroke: #FF6161 !important;
+            fill: #FF6161 !important;
+        }
+
+        .icon:not(.icon-favorite):hover svg {
+            stroke: #a6a86c;
+        }
+
+        .search-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            border: 1.5px solid #111;
+            border-radius: 20px;
+            padding: 6px 14px;
+            width: 320px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: #a6a86c;
+        }
+
+        .search-box svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            background: transparent;
+            width: 100%;
+            font-size: 14px;
+            font-family: 'Gothic60', 'Manrope', sans-serif;
+        }
+
+        /* ===== СТРАНИЦА ИЗБРАННОГО ===== */
+        .favorites-page {
+            padding: 0 0 60px 0;
+            flex: 1;
+        }
+
+        .favorites-title {
+            font-family: 'Widock Trial', 'Manrope', sans-serif;
+            font-weight: 800;
+            font-size: 60px;
+            letter-spacing: 2px;
+            margin: 20px 0 40px;
+            text-align: center;
+        }
+
+        /* Сетка карточек - как в каталоге */
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        /* Карточка товара - полностью как в каталоге */
+        .favorite-card {
+            background: #fff;
+            padding: 20px 20px 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .favorite-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .card-img {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .card-img img {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .favorite-card:hover .card-img img {
+            transform: scale(1.02);
+        }
+
+        .card-name {
+            font-family: 'Gothic60', 'Manrope', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            margin: 10px 0 20px;
+            text-transform: lowercase;
+        }
+
+        .card-name::first-letter {
+            text-transform: uppercase;
+        }
+
+        /* Блок с кнопками */
+        .card-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .btn-cart {
+            font-family: 'Gothic60', 'Manrope', sans-serif;
+            font-weight: 400;
+            background: #a6a86c;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s, transform 0.2s;
+            color: white;
+        }
+
+        .btn-cart:hover {
+            background: #8b8d5a;
+            transform: scale(1.02);
+        }
+
+        .btn-remove {
+            background: transparent;
+            border: 1px solid #ddd;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'Gothic60', 'Manrope', sans-serif;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-remove:hover {
+            border-color: #ff6161;
+            color: #ff6161;
+            transform: scale(1.02);
+        }
+
+        .btn-remove svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Пустое избранное */
+        .empty-favorites {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-text {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .continue-btn {
+            background: #a6a86c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: 'Gothic60', 'Manrope', sans-serif;
+            transition: background 0.3s;
+        }
+
+        .continue-btn:hover {
+            background: #8b8d5a;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #e6e6e6;
+            padding: 40px 0;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 70px;
+        }
+
+        .footer-links .col {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-links a {
+            font-family: 'Gothic60', 'Manrope', sans-serif;
+            font-weight: 400;
+            text-decoration: none;
+            font-size: 14px;
+            color: #111;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #a6a86c;
+        }
+
+        /* ===== УВЕДОМЛЕНИЕ ===== */
+        .cart-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #a6a86c;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Gothic60', 'Manrope', sans-serif;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cart-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== АДАПТАЦИЯ ===== */
+        @media (max-width: 1200px) {
+            .container {
+                width: 100%;
+                padding: 0 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            .header-row {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .favorites-title {
+                font-size: 48px;
+            }
+            
+            .favorites-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .favorite-card {
+                max-width: 350px;
+                margin: 0 auto;
+                width: 100%;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 25px;
+                align-items: center;
+            }
+            
+            .footer-links .col {
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .favorites-title {
+                font-size: 36px;
+            }
+            
+            .search-box {
+                width: 90%;
+                max-width: 280px;
+            }
+            
+            .nav {
+                gap: 15px;
+            }
+            
+            .nav a {
+                font-size: 12px;
+            }
+            
+            .card-name {
+                font-size: 14px;
+            }
+            
+            .btn-cart, .btn-remove {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-row">
+        <a href="index.html" class="logo">HOMELIGHT</a>
+
+        <nav class="nav">
+            <a href="catalog.html">каталог</a>
+            <a href="delivery.html">доставка</a>
+            <a href="about.html">о нас</a>
+            <a href="contact.html">контакты</a>
+
+            <a href="favorite.html" class="icon icon-favorite">
+                <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M20.8 8.6c0 5-8.8 11-8.8 11S3.2 13.6 3.2 8.6c0-2.6 2-4.6 4.6-4.6 1.6 0 3 .8 3.8 2.1C12.4 4.8 13.8 4 15.4 4c2.6 0 4.6 2 4.6 4.6z"/>
+                </svg>
+            </a>
+
+            <a href="profile.html" class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M4 20c2.5-4 5.5-6 8-6s5.5 2 8 6"/>
+                </svg>
+            </a>
+
+            <a href="trashbin.html" class="icon cart-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M3 4h2l2 10h10l2-7H6"/>
+                    <circle cx="9" cy="20" r="1.5"/>
+                    <circle cx="17" cy="20" r="1.5"/>
+                </svg>
+            </a>
+        </nav>
+    </div>
+
+    <div class="search-wrapper">
+        <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="20" y1="20" x2="16.5" y2="16.5"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Поиск...">
+        </div>
+    </div>
+</header>
+
+<hr class="divider">
+
+<section class="favorites-page">
+    <div class="container">
+        <h1 class="favorites-title">ИЗБРАННОЕ</h1>
+
+        <div id="favoritesGrid" class="favorites-grid">
+            <!-- товары будут загружены через JS -->
+        </div>
+
+        <div id="emptyFavorites" class="empty-favorites" style="display: none;">
+            <div class="empty-text"> В ИЗБРАННОМ ПОКА НИЧЕГО НЕТ</div>
+            <button class="continue-btn" onclick="window.location.href='catalog.html'">ПЕРЕЙТИ В КАТАЛОГ</button>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container footer-content">
+        <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">HOMELIGHT</a>
+
+        <div class="footer-links">
+            <div class="col">
+                <a href="index.html">главная</a>
+                <a href="catalog.html">каталог</a>
+            </div>
+            <div class="col">
+                <a href="delivery.html">доставка</a>
+                <a href="favorite.html">избранное</a>
+            </div>
+            <div class="col">
+                <a href="trashbin.html">корзина</a>
+                <a href="contact.html">контакты</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="product-data.js"></script>
+<script src="cart.js"></script>
+<script src="favorites.js"></script>
+<script>
+    function renderFavorites() {
+        const items = favorites.getItems();
+        const grid = document.getElementById('favoritesGrid');
+        const emptyDiv = document.getElementById('emptyFavorites');
+        
+        if (items.length === 0) {
+            grid.innerHTML = '';
+            emptyDiv.style.display = 'block';
+            return;
+        }
+        
+        emptyDiv.style.display = 'none';
+        
+        grid.innerHTML = items.map(item => `
+            <div class="favorite-card" onclick="window.location.href='card.html?id=${item.id}'">
+                <div class="card-img">
+                    <img src="${item.img}" alt="${item.name}">
+                </div>
+                <div class="card-name">${item.name}</div>
+                <div class="card-buttons">
+                    <button class="btn-cart" onclick="event.stopPropagation(); addToCart(${item.id})">В КОРЗИНУ</button>
+                    <button class="btn-remove" onclick="event.stopPropagation(); removeFromFavorites(${item.id})">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                        УДАЛИТЬ
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function removeFromFavorites(id) {
+        favorites.removeFromFavorites(id);
+        renderFavorites();
+        showNotification('Удалено из избранного');
+    }
+    
+    function addToCart(id) {
+        const allProducts = [...products, ...productsPage2];
+        const product = allProducts.find(p => p.id === id);
+        if (product) {
+            cart.addItem({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                img: product.img,
+                category: product.category
+            });
+            showNotification('Товар добавлен в корзину!');
+        }
+    }
+    
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'cart-notification';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 2000);
+    }
+    
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim().toLowerCase();
+                if (query === 'каталог') window.location.href = 'catalog.html';
+                else if (query === 'о нас') window.location.href = 'about.html';
+                else if (query === 'главная') window.location.href = 'index.html';
+                else if (query === 'корзина') window.location.href = 'trashbin.html';
+                else if (query === 'избранное') window.location.href = 'favorite.html';
+                else alert('По запросу "' + query + '" ничего не найдено');
+            }
+        });
+    }
+    
+    renderFavorites();
+</script>
+</body>
+</html>
